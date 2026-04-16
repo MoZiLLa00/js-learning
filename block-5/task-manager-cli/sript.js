@@ -7,31 +7,26 @@ const initialTasks = [
 ];
 
 // 1. возвращает новый массив с добавленной задачей
-function addTask(title, tasks, priority) {
-  let add = [
-    ...initialTasks,
-    {
-      id: initialTasks.length + 1,
-      title: title,
-      done: tasks,
-      priority: priority,
-    },
+function addTask(tasks, title, priority) {
+  // Находим максимальный id + 1 для нового
+  const newId = tasks.length > 0 ? Math.max(...tasks.map((t) => t.id)) + 1 : 1;
+  // Возвращаем НОВЫЙ массив: старый + новая задача
+  return [
+    ...tasks,
+    { id: newId, title: title, done: false, priority: priority },
   ];
-  return add;
 }
 
 // 2. возвращает новый массив, где у задачи с id меняется done
-function toggleTask(id) {
-  let toggle = [...initialTasks];
-  return toggle
-    .find((task) => task.id === id)
-    .forEach((task) => (task.done === false ? true : false));
+function toggleTask(tasks, id) {
+  return tasks.map((task) =>
+    task.id === id ? { ...task, done: !task.done } : task,
+  );
 }
 
 // 3. возвращает новый массив без задачи
-function deleteTask(id) {
-  let delet = [...initialTasks];
-  return delet.filter((task) => task.id !== id);
+function deleteTask(tasks, id) {
+  return tasks.filter((task) => task.id !== id);
 }
 
 // 4. фильтрует ("done" / "pending")
@@ -55,33 +50,32 @@ if (operation === null) {
   switch (operation) {
     case "1": {
       const title = prompt("Напишите название задачи:");
-      const tasks = Boolean(
-        prompt("Запишите true, если задача выполнена, иначе false"),
-      );
       const priority = prompt("Запишите приоритет задачи (high, medium, low):");
-      result = addTask(title, tasks, priority);
+      result = addTask(initialTasks, title, priority);
       break;
     }
     case "2": {
       const id = Number(prompt("Запишите id задачи для изменения:"));
-      result = toggleTask(id);
+      result = toggleTask(initialTasks, id);
       break;
     }
     case "3": {
       const id = Number(prompt("Запишите id задачи для удаления:"));
-      result = deleteTask(id);
+      result = deleteTask(initialTasks, id);
       break;
     }
     case "4": {
-      result = getTasksByStatus(tasks, status);
+      const stat = prompt("Введите статус (done/pending):");
+      result = getTasksByStatus(initialTasks, stat);
       break;
     }
     case "5": {
-      result = getTasksByPriority(tasks, priority);
+      const priority = prompt("Введите приоритет (high/medium/low):");
+      result = getTasksByPriority(initialTasks, priority);
       break;
     }
     case "6": {
-      result = getStats(tasks);
+      result = getStats(initialTasks);
       break;
     }
     default:
