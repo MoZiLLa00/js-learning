@@ -78,8 +78,9 @@ if (operation === null) {
       result = getStats(initialTasks);
       break;
     }
-    default:
+    default: {
       result = "❌ Неизвестная операция";
+    }
   }
 
   console.log(`Результат: ${result}`);
