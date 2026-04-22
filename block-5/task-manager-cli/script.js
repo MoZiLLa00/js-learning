@@ -30,13 +30,30 @@ function deleteTask(tasks, id) {
 }
 
 // 4. фильтрует ("done" / "pending")
-function getTasksByStatus(tasks, status) {}
+function getTasksByStatus(tasks, stat) {
+  const isDone = stat === "done";
+  return tasks.filter((task) => task.done === isDone);
+}
 
 // 5. фильтрует по приоритету
-function getTasksByPriority(tasks, priority) {}
+function getTasksByPriority(tasks, priority) {
+  return tasks.filter((task) => task.priority === priority);
+}
 
 // 6. возвращает объект: { total, done, pending, highPriority }
-function getStats(tasks) {}
+function getStats(tasks) {
+  return tasks.reduce(
+    (stats, task) => {
+      return {
+        total: stats.total + 1,
+        done: stats.done + (task.done ? 1 : 0),
+        pending: stats.pending + (task.done ? 0 : 1),
+        highPriority: stats.highPriority + (task.priority === "high" ? 1 : 0),
+      };
+    },
+    { total: 0, done: 0, pending: 0, highPriority: 0 },
+  );
+}
 
 // === Интерактивный запуск ===
 const operation = prompt(
@@ -83,6 +100,6 @@ if (operation === null) {
     }
   }
 
-  console.log(`Результат: ${result}`);
-  alert(`Результат: ${result}`);
+  console.log(result);
+  alert(JSON.stringify(result, null, 2));
 }
