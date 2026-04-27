@@ -21,3 +21,10 @@ git push
 
 git branch -d feature/block-N-name
 git push origin --delete feature/block-N-name
+
+Чек-лист: твой следующий переход между устройствами
+Шаг | Команда | Зачем
+1 | git fetch | Узнать, что появилось на сервере
+2 | git switch имя-ветки | Переключиться + создать привязку
+3 | git pull |Скачать последние изменения
+4 | Работай → git add . → git commit -m "..." → git push | Сохранить прогресс
